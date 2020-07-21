@@ -1,5 +1,7 @@
 package com.malik.jsonplaceholdergradle;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -16,6 +18,7 @@ import java.nio.file.Paths;
 @Component
 public class MainRunner implements CommandLineRunner {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainRunner.class);
     private static final String API_URL = "https://jsonplaceholder.typicode.com";
     private static final Path OUTPUT_DIRECTORY_PATH = Paths.get("./output");
 
@@ -53,6 +56,7 @@ public class MainRunner implements CommandLineRunner {
         try {
             Path outputFilePath = Paths.get(OUTPUT_DIRECTORY_PATH + "/" + post.getId() + ".json");
             Files.write(outputFilePath, post.toJson().getBytes(Charset.forName("UTF-8")));
+            LOGGER.info("Saved post in file - " + post.toJson());
         } catch (IOException e) {
             e.printStackTrace();
         }
